@@ -8652,6 +8652,10 @@ var VgtTableHeader = normalizeComponent_1({
 //
 //
 //
+//
+//
+//
+//
 var script$5 = {
   name: 'VgtHeaderRow',
   props: {
@@ -8682,6 +8686,12 @@ var script$5 = {
     },
     fullColspan: {
       type: Number
+    },
+    showGroupTriangle: {
+      type: Boolean
+    },
+    indexColumnCollapsible: {
+      type: Boolean
     }
   },
   data: function data() {
@@ -8691,7 +8701,7 @@ var script$5 = {
   methods: {
     columnCollapsable: function columnCollapsable(currentIndex) {
       if (this.collapsable === true) {
-        return currentIndex === 0;
+        return currentIndex === 0 && this.indexColumnCollapsible;
       }
 
       return currentIndex === this.collapsable;
@@ -8747,7 +8757,7 @@ var __vue_render__$5 = function __vue_render__() {
           _vm.columnCollapsable(i) ? _vm.$emit('vgtExpand', !_vm.headerRow.vgtIsExpanded) : function () {};
         }
       }
-    }, [_vm.columnCollapsable(i) ? _c('span', {
+    }, [_vm.columnCollapsable(i) && _vm.showGroupTriangle ? _c('span', {
       staticClass: "triangle",
       "class": {
         'expand': _vm.headerRow.vgtIsExpanded
@@ -8759,7 +8769,11 @@ var __vue_render__$5 = function __vue_render__() {
     }) : _vm._e()], {
       "row": _vm.headerRow,
       "column": column,
-      "formattedRow": _vm.formattedRow(_vm.headerRow, true)
+      "formattedRow": _vm.formattedRow(_vm.headerRow, true),
+      "expand": function expand() {
+        _vm.$emit('vgtExpand', !_vm.headerRow.vgtIsExpanded);
+      },
+      "expanded": _vm.headerRow.vgtIsExpanded
     })], 2) : _vm._e();
   })], 2);
 };
@@ -13529,7 +13543,9 @@ var script$6 = {
         return {
           enabled: false,
           collapsable: false,
-          rowKey: null
+          rowKey: null,
+          indexColumnCollapsible: false,
+          showGroupTriangle: false
         };
       }
     },
@@ -14360,12 +14376,29 @@ var script$6 = {
       // a function.
 
       if (typeof custom === 'function') {
-        classes[custom(row)] = true;
+        classes[custom(row, index)] = true;
       } else if (typeof custom === 'string') {
         classes[custom] = true;
       }
 
       return classes;
+    },
+    // Get attributes for the given column index && element
+    getAttributes: function getAttributes(index, element, row) {
+      var custom = this.typedColumns[index]["".concat(element, "Attrs")];
+      var attributes = {}; // construct attributes if function
+
+      if (typeof custom === 'function') {
+        var constructed = custom(row, index, this.typedColumns.length);
+
+        if (_typeof(constructed) === 'object' && !Array.isArray(constructed)) {
+          attributes = Object.assign({}, attributes, {}, constructed);
+        }
+      } else if (_typeof(custom) === 'object' && !Array.isArray(custom)) {
+        attributes = Object.assign({}, attributes, {}, custom);
+      }
+
+      return attributes;
     },
     filterMultiselectItems: function filterMultiselectItems(column, row) {
       var columnFieldName = column.field;
@@ -14871,6 +14904,8 @@ var __vue_render__$6 = function __vue_render__() {
         "line-numbers": _vm.lineNumbers,
         "selectable": _vm.selectable,
         "collapsable": _vm.groupOptions.collapsable,
+        "show-group-triangle": _vm.groupOptions.showGroupTriangle,
+        "index-column-collapsible": _vm.groupOptions.indexColumnCollapsible,
         "collect-formatted": _vm.collectFormatted,
         "formatted-row": _vm.formattedRow,
         "get-classes": _vm.getClasses,
@@ -14887,7 +14922,9 @@ var __vue_render__$6 = function __vue_render__() {
           return _vm.hasHeaderRowTemplate ? [_vm._t("table-header-row", null, {
             "column": props.column,
             "formattedRow": props.formattedRow,
-            "row": props.row
+            "row": props.row,
+            "expand": props.expand,
+            "expanded": props.expanded
           })] : undefined;
         }
       }], null, true)
@@ -14930,7 +14967,7 @@ var __vue_render__$6 = function __vue_render__() {
           "checked": row.vgtSelected
         }
       })]) : _vm._e(), _vm._v(" "), _vm._l(_vm.columns, function (column, i) {
-        return !column.hidden && column.field ? _c('td', {
+        return !column.hidden && column.field ? _c('td', _vm._b({
           key: i,
           "class": _vm.getClasses(i, 'td', row),
           on: {
@@ -14938,7 +14975,7 @@ var __vue_render__$6 = function __vue_render__() {
               return _vm.onCellClicked(row, column, index, $event);
             }
           }
-        }, [_vm._t("table-row", [!column.html ? _c('span', [_vm._v("\n                  " + _vm._s(_vm.collectFormatted(row, column)) + "\n                ")]) : _vm._e(), _vm._v(" "), column.html ? _c('span', {
+        }, 'td', _vm.getAttributes(i, 'td', row), false), [_vm._t("table-row", [!column.html ? _c('span', [_vm._v("\n                  " + _vm._s(_vm.collectFormatted(row, column)) + "\n                ")]) : _vm._e(), _vm._v(" "), column.html ? _c('span', {
           domProps: {
             "innerHTML": _vm._s(_vm.collect(row, column.field))
           }

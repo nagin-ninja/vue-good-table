@@ -156,6 +156,8 @@
               :line-numbers="lineNumbers"
               :selectable="selectable"
               :collapsable="groupOptions.collapsable"
+              :show-group-triangle="groupOptions.showGroupTriangle"
+              :index-column-collapsible="groupOptions.indexColumnCollapsible"
               :collect-formatted="collectFormatted"
               :formatted-row="formattedRow"
               :class="getRowStyleClass(headerRow)"
@@ -172,6 +174,8 @@
                   :column="props.column"
                   :formattedRow="props.formattedRow"
                   :row="props.row"
+                  :expand="props.expand"
+                  :expanded="props.expanded"
                 >
                 </slot>
               </template>
@@ -208,6 +212,7 @@
                 v-for="(column, i) in columns"
                 :key="i"
                 :class="getClasses(i, 'td', row)"
+                v-bind="getAttributes(i, 'td', row)"
                 v-if="!column.hidden && column.field"
               >
                 <slot
@@ -347,7 +352,9 @@ export default {
         return {
           enabled: false,
           collapsable: false,
-          rowKey: null
+          rowKey: null,
+          indexColumnCollapsible: false,
+          showGroupTriangle: false,
         };
       },
     },
@@ -1236,11 +1243,36 @@ export default {
       // for td we need to check if value is
       // a function.
       if (typeof custom === 'function') {
-        classes[custom(row)] = true;
+        classes[custom(row, index)] = true;
       } else if (typeof custom === 'string') {
         classes[custom] = true;
       }
       return classes;
+    },
+
+    // Get attributes for the given column index && element
+    getAttributes(index, element, row) {
+      const { [`${element}Attrs`]: custom } = this.typedColumns[index];
+
+      let attributes = {}
+
+      // construct attributes if function
+      if (typeof custom === 'function') {
+        const constructed = custom(row, index, this.typedColumns.length);
+        if (typeof constructed === 'object' && !Array.isArray(constructed)) {
+          attributes = {
+            ...attributes,
+            ...constructed,
+          };
+        }
+      } else if (typeof custom === 'object' && !Array.isArray(custom)) {
+        attributes = {
+          ...attributes,
+          ...custom,
+        };
+      }
+
+      return attributes;
     },
 
     filterMultiselectItems(column, row) {

@@ -30,11 +30,15 @@
     class="vgt-row-header"
     :class="getClasses(i, 'td')"
     @click="columnCollapsable(i) ? $emit('vgtExpand', !headerRow.vgtIsExpanded) : () => {}">
-    <span v-if="columnCollapsable(i)" class="triangle" :class="{ 'expand': headerRow.vgtIsExpanded }"></span>
+    <span v-if="columnCollapsable(i) && showGroupTriangle" class="triangle" :class="{ 'expand': headerRow.vgtIsExpanded }"></span>
     <slot
       :row="headerRow"
       :column="column"
       :formattedRow="formattedRow(headerRow, true)"
+      :expand="() => {
+        $emit('vgtExpand', !headerRow.vgtIsExpanded)
+      }"
+      :expanded="headerRow.vgtIsExpanded"
       name="table-header-row">
       <span v-if="!column.html">
         {{ collectFormatted(headerRow, column, true) }}
@@ -78,6 +82,12 @@ export default {
     fullColspan: {
       type: Number,
     },
+    showGroupTriangle: {
+      type: Boolean,
+    },
+    indexColumnCollapsible: {
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -88,7 +98,7 @@ export default {
   methods: {
     columnCollapsable(currentIndex) {
       if (this.collapsable === true) {
-        return currentIndex === 0;
+        return currentIndex === 0 && this.indexColumnCollapsible;
       }
       return currentIndex === this.collapsable;
     },
