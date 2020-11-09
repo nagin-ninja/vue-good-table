@@ -13704,6 +13704,9 @@ var script$6 = {
     hasFooterSlot: function hasFooterSlot() {
       return !!this.$slots['table-actions-bottom'];
     },
+    hasFooterRowSlot: function hasFooterRowSlot() {
+      return this.$slots['table-footer-row'] || this.$scopedSlots['table-footer-row'];
+    },
     wrapperStyles: function wrapperStyles() {
       return {
         overflow: 'scroll-y',
@@ -15014,7 +15017,14 @@ var __vue_render__$6 = function __vue_render__() {
     }
   }, [_vm._t("emptystate", [_c('div', {
     staticClass: "vgt-center-align vgt-text-disabled"
-  }, [_vm._v("\n                  No data for table\n                ")])])], 2)])]) : _vm._e()], 2)]), _vm._v(" "), _vm.hasFooterSlot ? _c('div', {
+  }, [_vm._v("\n                  No data for table\n                ")])])], 2)])]) : _vm.hasFooterRowSlot ? _c('tfoot', _vm._l(_vm.columns, function (column, i) {
+    return !column.hidden && column.field ? _c('td', {
+      key: i
+    }, [_vm._t("table-footer-row", null, {
+      "column": column,
+      "index": i
+    })], 2) : _vm._e();
+  }), 0) : _vm._e()], 2)]), _vm._v(" "), _vm.hasFooterSlot ? _c('div', {
     staticClass: "vgt-wrap__actions-footer"
   }, [_vm._t("table-actions-bottom")], 2) : _vm._e(), _vm._v(" "), _vm.paginate && _vm.paginateOnBottom ? _vm._t("pagination-bottom", [_c('vgt-pagination', {
     ref: "paginationBottom",

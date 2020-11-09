@@ -272,6 +272,19 @@
               </td>
             </tr>
           </tbody>
+          <tfoot v-else-if="hasFooterRowSlot">
+            <td
+              v-for="(column, i) in columns"
+              :key="i"
+              v-if="!column.hidden && column.field"
+            >
+              <slot
+                name="table-footer-row"
+                :column="column"
+                :index="i"
+              />
+            </td>
+          </tfoot>
         </table>
       </div>
       <div v-if="hasFooterSlot" class="vgt-wrap__actions-footer">
@@ -530,6 +543,9 @@ export default {
   computed: {
     hasFooterSlot() {
       return !!this.$slots['table-actions-bottom'];
+    },
+    hasFooterRowSlot() {
+      return this.$slots['table-footer-row'] || this.$scopedSlots['table-footer-row'];
     },
     wrapperStyles() {
       return {
