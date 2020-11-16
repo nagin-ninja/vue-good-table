@@ -1,5 +1,5 @@
 /**
- * vue-good-table v2.19.3
+ * vue-good-table v2.19.4
  * (c) 2018-present xaksis <shay@crayonbits.com>
  * https://github.com/xaksis/vue-good-table
  * Released under the MIT License.
@@ -14249,6 +14249,13 @@ var script$6 = {
         event: event
       });
     },
+    onHeaderRowClicked: function onHeaderRowClicked(row, index, event) {
+      this.$emit('on-header-row-click', {
+        row: row,
+        index: index,
+        event: event
+      });
+    },
     onRowAuxClicked: function onRowAuxClicked(row, index, event) {
       this.$emit('on-row-aux-click', {
         row: row,
@@ -14917,6 +14924,11 @@ var __vue_render__$6 = function __vue_render__() {
       on: {
         "vgtExpand": function vgtExpand($event) {
           return _vm.toggleExpand(headerRow[_vm.rowKeyField]);
+        }
+      },
+      nativeOn: {
+        "click": function click($event) {
+          return _vm.onHeaderRowClicked(headerRow, index, $event);
         }
       },
       scopedSlots: _vm._u([{
