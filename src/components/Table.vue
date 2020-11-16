@@ -163,6 +163,7 @@
               :class="getRowStyleClass(headerRow)"
               :get-classes="getClasses"
               :full-colspan="fullColspan"
+              @click.native="onHeaderRowClicked(headerRow, index, $event)"
             >
               <template
                 v-if="hasHeaderRowTemplate"
@@ -1121,6 +1122,14 @@ export default {
         row,
         pageIndex: index,
         selected: !!row.vgtSelected,
+        event,
+      });
+    },
+
+    onHeaderRowClicked(row, index, event) {
+      this.$emit('on-header-row-click', {
+        row,
+        index,
         event,
       });
     },
