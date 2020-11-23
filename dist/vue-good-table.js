@@ -1,5 +1,5 @@
 /**
- * vue-good-table v2.19.4
+ * vue-good-table v2.19.6
  * (c) 2018-present xaksis <shay@crayonbits.com>
  * https://github.com/xaksis/vue-good-table
  * Released under the MIT License.
@@ -13857,6 +13857,12 @@
         var computedRows = this.filteredRows;
 
         if (this.mode === 'remote') {
+          computedRows.forEach(function (flatRow) {
+            //* header row?
+            if (flatRow.vgt_header_id !== undefined) {
+              _this.handleExpanded(flatRow);
+            }
+          });
           return computedRows;
         } // take care of the global filter here also
 

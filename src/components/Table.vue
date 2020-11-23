@@ -730,6 +730,12 @@ export default {
       // we only process rows when mode is local
       let computedRows = this.filteredRows;
       if (this.mode === 'remote') {
+        computedRows.forEach((flatRow) => {
+          //* header row?
+          if (flatRow.vgt_header_id !== undefined) {
+            this.handleExpanded(flatRow);
+          }
+        });
         return computedRows;
       }
 
