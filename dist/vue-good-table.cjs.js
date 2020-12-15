@@ -14913,7 +14913,26 @@ var __vue_render__$6 = function __vue_render__() {
         })];
       }
     }], null, true)
-  }), _vm._v(" "), _vm._l(_vm.paginated, function (headerRow, index) {
+  }), _vm._v(" "), _vm.$scopedSlots.tbody ? _vm._t("tbody", null, null, {
+    paginated: _vm.paginated,
+    groupOptions: _vm.groupOptions,
+    getRowStyleClass: _vm.getRowStyleClass,
+    onMouseenter: _vm.onMouseenter,
+    onMouseleave: _vm.onMouseleave,
+    onRowDoubleClicked: _vm.onRowDoubleClicked,
+    onRowClicked: _vm.onRowClicked,
+    onRowAuxClicked: _vm.onRowAuxClicked,
+    lineNumbers: _vm.lineNumbers,
+    getCurrentIndex: _vm.getCurrentIndex,
+    selectable: _vm.selectable,
+    onCheckboxClicked: _vm.onCheckboxClicked,
+    onCellClicked: _vm.onCellClicked,
+    columns: _vm.columns,
+    getClasses: _vm.getClasses,
+    formattedRow: _vm.formattedRow,
+    collectFormatted: _vm.collectFormatted,
+    collect: _vm.collect
+  }) : _vm._l(_vm.paginated, function (headerRow, index) {
     return _c('tbody', {
       key: index
     }, [_vm.groupHeaderOnTop ? _c('vgt-header-row', {

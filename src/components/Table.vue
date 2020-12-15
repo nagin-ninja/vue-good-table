@@ -142,8 +142,34 @@
             </template>
           </thead>
 
+          <slot
+            v-if="$scopedSlots.tbody"
+            name="tbody"
+            v-bind="{
+              paginated,
+              groupOptions,
+              getRowStyleClass,
+              onMouseenter,
+              onMouseleave,
+              onRowDoubleClicked,
+              onRowClicked,
+              onRowAuxClicked,
+              lineNumbers,
+              getCurrentIndex,
+              selectable,
+              onCheckboxClicked,
+              onCellClicked,
+              columns,
+              getClasses,
+              formattedRow,
+              collectFormatted,
+              collect,
+            }"
+          />
+
           <!-- Table body starts here -->
           <tbody
+            v-else
             v-for="(headerRow, index) in paginated"
             :key="index"
           >
