@@ -14262,11 +14262,12 @@
         });
       },
       onHeaderRowClicked: function onHeaderRowClicked(row, index, event) {
-        this.$emit('on-header-row-click', {
+        var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+        this.$emit('on-header-row-click', Object.assign({
           row: row,
           index: index,
           event: event
-        });
+        }, options));
       },
       onRowAuxClicked: function onRowAuxClicked(row, index, event) {
         this.$emit('on-row-aux-click', {
@@ -14959,7 +14960,11 @@
         },
         nativeOn: {
           "click": function click($event) {
-            return _vm.onHeaderRowClicked(headerRow, index, $event);
+            _vm.onHeaderRowClicked(headerRow, index, $event, {
+              toggleExpand: function toggleExpand() {
+                return _vm.toggleExpand(headerRow[_vm.rowKeyField]);
+              }
+            });
           }
         },
         scopedSlots: _vm._u([{

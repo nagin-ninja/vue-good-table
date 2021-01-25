@@ -189,7 +189,9 @@
               :class="getRowStyleClass(headerRow)"
               :get-classes="getClasses"
               :full-colspan="fullColspan"
-              @click.native="onHeaderRowClicked(headerRow, index, $event)"
+              @click.native="onHeaderRowClicked(headerRow, index, $event, {
+                toggleExpand: () => toggleExpand(headerRow[rowKeyField]),
+              })"
             >
               <template
                 v-if="hasHeaderRowTemplate"
@@ -1158,11 +1160,12 @@ export default {
       });
     },
 
-    onHeaderRowClicked(row, index, event) {
+    onHeaderRowClicked(row, index, event, options = {}) {
       this.$emit('on-header-row-click', {
         row,
         index,
         event,
+        ...options
       });
     },
 
