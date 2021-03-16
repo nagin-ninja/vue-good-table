@@ -161,6 +161,7 @@
               onCellClicked,
               columns,
               getClasses,
+              getAttributes,
               formattedRow,
               collectFormatted,
               collect,

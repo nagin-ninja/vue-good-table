@@ -14932,6 +14932,7 @@
       onCellClicked: _vm.onCellClicked,
       columns: _vm.columns,
       getClasses: _vm.getClasses,
+      getAttributes: _vm.getAttributes,
       formattedRow: _vm.formattedRow,
       collectFormatted: _vm.collectFormatted,
       collect: _vm.collect
