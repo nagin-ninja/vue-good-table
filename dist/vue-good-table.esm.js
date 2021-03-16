@@ -14930,7 +14930,8 @@ var __vue_render__$6 = function __vue_render__() {
     formattedRow: _vm.formattedRow,
     collectFormatted: _vm.collectFormatted,
     collect: _vm.collect,
-    toggleExpand: _vm.toggleExpand
+    toggleExpand: _vm.toggleExpand,
+    rowKeyField: _vm.rowKeyField
   }) : _vm._l(_vm.paginated, function (headerRow, index) {
     return _c('tbody', {
       key: index

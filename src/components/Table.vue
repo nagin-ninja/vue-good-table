@@ -166,6 +166,7 @@
               collectFormatted,
               collect,
               toggleExpand,
+              rowKeyField,
             }"
           />
 
