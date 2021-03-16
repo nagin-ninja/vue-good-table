@@ -165,6 +165,7 @@
               formattedRow,
               collectFormatted,
               collect,
+              toggleExpand,
             }"
           />
 

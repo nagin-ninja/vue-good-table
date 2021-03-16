@@ -14935,7 +14935,8 @@
       getAttributes: _vm.getAttributes,
       formattedRow: _vm.formattedRow,
       collectFormatted: _vm.collectFormatted,
-      collect: _vm.collect
+      collect: _vm.collect,
+      toggleExpand: _vm.toggleExpand
     }) : _vm._l(_vm.paginated, function (headerRow, index) {
       return _c('tbody', {
         key: index
